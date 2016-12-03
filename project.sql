@@ -207,6 +207,17 @@ WHERE   (SELECT COUNT(*)
 SELECT M.mID, M.title, T.tID, T.cName, T.cost
 FROM Movie M LEFT OUTER JOIN Ticket T ON M.mID = T.mID;
 
+--Q10: Division query
+--Finds all the employees that have sold tickets to every movie
+SELECT E.eID, E.name
+FROM Employee E
+WHERE NOT EXISTS(SELECT M.mID 
+	FROM Movie M
+	MINUS
+	SELECT DISTINCT T.mID
+	FROM Ticket T, Sells S
+	WHERE S.eID = E.eID AND T.tID = S.tID);
+
 --Testing KEY1
 INSERT INTO Ticket VALUES (104, 3, 20, 20, 'Sheryl');
 --Testing ATT1

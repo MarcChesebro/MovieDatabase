@@ -413,12 +413,48 @@ SQL> SELECT E.eID, E.name
 2 rows selected.
 
 SQL> 
+SQL> --Q9: Outer Join Query
+SQL> --Finds the purchasing history of all tickets sold at the theater
+SQL> SELECT M.mID, M.title, T.tID, T.cName, T.cost
+  2  FROM Movie M LEFT OUTER JOIN Ticket T ON M.mID = T.mID;
+
+       MID TITLE                            TID CNAME                      COST 
+---------- ------------------------- ---------- -------------------- ---------- 
+         1 Alice In Wonderland              101 Rebecca                      15 
+         2 The Great Wolf                   102 Jill                         20 
+         1 Alice In Wonderland              103 John                         15 
+         1 Alice In Wonderland              104 Sam                          15 
+         2 The Great Wolf                   105 Rick                         20 
+         2 The Great Wolf                   106 Morty                        20 
+
+6 rows selected.
+
+SQL> 
+SQL> --Q10: Division query
+SQL> --Finds all the employees that have sold tickets to every movie
+SQL> SELECT E.eID, E.name
+  2  FROM Employee E
+  3  WHERE NOT EXISTS(SELECT M.mID
+  4  	     FROM Movie M
+  5  	     MINUS
+  6  	     SELECT DISTINCT T.mID
+  7  	     FROM Ticket T, Sells S
+  8  	     WHERE S.eID = E.eID AND T.tID = S.tID);
+
+       EID NAME                                                                 
+---------- --------------------                                                 
+      1002 Luke Skywalker                                                       
+      1003 John Jingle                                                          
+
+2 rows selected.
+
+SQL> 
 SQL> --Testing KEY1
 SQL> INSERT INTO Ticket VALUES (104, 3, 20, 20, 'Sheryl');
 INSERT INTO Ticket VALUES (104, 3, 20, 20, 'Sheryl')
 *
 ERROR at line 1:
-ORA-00001: unique constraint (SLIFCOA.SYS_C00271172) violated 
+ORA-00001: unique constraint (CHESEBMA.SYS_C00271204) violated 
 
 
 SQL> --Testing ATT1
@@ -426,7 +462,7 @@ SQL> INSERT INTO Ticket VALUES (102, 2, 4, 45, 'Bob');
 INSERT INTO Ticket VALUES (102, 2, 4, 45, 'Bob')
 *
 ERROR at line 1:
-ORA-02290: check constraint (SLIFCOA.ATT1) violated 
+ORA-02290: check constraint (CHESEBMA.ATT1) violated 
 
 
 SQL> --Testing Primary Key
@@ -434,7 +470,7 @@ SQL> INSERT INTO Theater VALUES (NULL, 60000000);
 INSERT INTO Theater VALUES (NULL, 60000000)
                             *
 ERROR at line 1:
-ORA-01400: cannot insert NULL into ("SLIFCOA"."THEATER"."THEATERID") 
+ORA-01400: cannot insert NULL into ("CHESEBMA"."THEATER"."THEATERID") 
 
 
 SQL> --Testing ATT3
@@ -442,14 +478,14 @@ SQL> INSERT INTO Employee VALUES (1005, 20, 'Corey', NULL, 1, NULL);
 INSERT INTO Employee VALUES (1005, 20, 'Corey', NULL, 1, NULL)
 *
 ERROR at line 1:
-ORA-02290: check constraint (SLIFCOA.ATT3) violated 
+ORA-02290: check constraint (CHESEBMA.ATT3) violated 
 
 
 SQL> INSERT INTO Employee VALUES (1004, 30, 'Joanne', NULL, 0, NULL);
 INSERT INTO Employee VALUES (1004, 30, 'Joanne', NULL, 0, NULL)
 *
 ERROR at line 1:
-ORA-02290: check constraint (SLIFCOA.ATT3) violated 
+ORA-02290: check constraint (CHESEBMA.ATT3) violated 
 
 
 SQL> 
