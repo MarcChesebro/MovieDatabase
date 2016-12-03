@@ -1,4 +1,3 @@
-SQL> SET ECHO ON
 SQL> /*
 SQL> CIS 353 - Database Design Project
 SQL> Bridget Bieniek
@@ -419,7 +418,7 @@ SQL> INSERT INTO Ticket VALUES (104, 3, 20, 20, 'Sheryl');
 INSERT INTO Ticket VALUES (104, 3, 20, 20, 'Sheryl')
 *
 ERROR at line 1:
-ORA-00001: unique constraint (CHESEBMA.SYS_C00271030) violated 
+ORA-00001: unique constraint (SLIFCOA.SYS_C00271172) violated 
 
 
 SQL> --Testing ATT1
@@ -427,7 +426,7 @@ SQL> INSERT INTO Ticket VALUES (102, 2, 4, 45, 'Bob');
 INSERT INTO Ticket VALUES (102, 2, 4, 45, 'Bob')
 *
 ERROR at line 1:
-ORA-02290: check constraint (CHESEBMA.ATT1) violated 
+ORA-02290: check constraint (SLIFCOA.ATT1) violated 
 
 
 SQL> --Testing Primary Key
@@ -435,7 +434,7 @@ SQL> INSERT INTO Theater VALUES (NULL, 60000000);
 INSERT INTO Theater VALUES (NULL, 60000000)
                             *
 ERROR at line 1:
-ORA-01400: cannot insert NULL into ("CHESEBMA"."THEATER"."THEATERID") 
+ORA-01400: cannot insert NULL into ("SLIFCOA"."THEATER"."THEATERID") 
 
 
 SQL> --Testing ATT3
@@ -443,14 +442,14 @@ SQL> INSERT INTO Employee VALUES (1005, 20, 'Corey', NULL, 1, NULL);
 INSERT INTO Employee VALUES (1005, 20, 'Corey', NULL, 1, NULL)
 *
 ERROR at line 1:
-ORA-02290: check constraint (CHESEBMA.ATT3) violated 
+ORA-02290: check constraint (SLIFCOA.ATT3) violated 
 
 
 SQL> INSERT INTO Employee VALUES (1004, 30, 'Joanne', NULL, 0, NULL);
 INSERT INTO Employee VALUES (1004, 30, 'Joanne', NULL, 0, NULL)
 *
 ERROR at line 1:
-ORA-02290: check constraint (CHESEBMA.ATT3) violated 
+ORA-02290: check constraint (SLIFCOA.ATT3) violated 
 
 
 SQL> 

@@ -202,6 +202,11 @@ WHERE   (SELECT COUNT(*)
 	FROM Sells S 
 	WHERE S.eID = E.eID) >= 2;
 
+--Q9: Outer Join Query
+--Finds the purchasing history of all tickets sold at the theater
+SELECT M.mID, M.title, T.tID, T.cName, T.cost
+FROM Movie M LEFT OUTER JOIN Ticket T ON M.mID = T.mID;
+
 --Testing KEY1
 INSERT INTO Ticket VALUES (104, 3, 20, 20, 'Sheryl');
 --Testing ATT1
