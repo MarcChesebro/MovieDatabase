@@ -163,17 +163,27 @@ FROM Employee E1, Employee E2 WHERE E1.super_eID = E2.eID;
 SELECT eID, name FROM Employee WHERE fullTimeStatus = 1 AND eID 
 IN (SELECT P.eID FROM ParkingSpace P);
 
---Q4: Rank query
+--Q5: Rank query
 --ranks the movies on how much they made on a particular date
 SELECT mID, amount, mdate, RANK() OVER (PARTITION BY mdate ORDER BY amount DESC) "Daily Rank" 
 FROM Revenue
 
---Q5: Joining 4 Tables
+--Q6: Joining 4 Tables
 --Finds the employees who have sold a ticket to an R-rated Movie
 SELECT E.name, E.eID, T.tID, M.rating, M.title
 FROM Employee E, Sells S, Ticket T, Movie M
 WHERE E.eID = S.eID AND S.tID = T.tID And M.rating LIKE '%R18%'
 ORDER BY E.name;
+
+--Q7: Minus query
+--Finds all the employees that have a parking space
+SELECT E.eID, E.name, P.parkID
+FROM Employee E, ParkingSpace P
+MINUS
+SELECT DISTINCT E.eID, E.name, P.parkID
+FROM Employee E, ParkingSpace P
+WHERE E.eID != P.eID;
+
 
 --Testing KEY1
 INSERT INTO Ticket VALUES (104, 3, 20, 20, 'Sheryl');
