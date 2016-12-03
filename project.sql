@@ -101,7 +101,12 @@ INSERT INTO Movie VALUES (2, 'R18', 'The Great Wolf', 'A wolf is suffering in th
 INSERT INTO Theater VALUES (10, 5);
 
 INSERT INTO Ticket VALUES (101, 1, 15, 12, 'Rebecca');
-INSERT INTO Ticket VALUES (106, 2, 15, 21, 'Jill');
+INSERT INTO Ticket VALUES (102, 2, 20, 21, 'Jill');
+INSERT INTO Ticket VALUES (103, 1, 15, 13, 'John');
+INSERT INTO Ticket VALUES (104, 1, 15, 20, 'Sam');
+INSERT INTO Ticket VALUES (105, 2, 20, 31, 'Rick');
+INSERT INTO Ticket VALUES (106, 2, 20, 44, 'Morty');
+
 
 INSERT INTO Employee VALUES(1001, 40, 'Mark Hamill', 1233211, 1, NULL);
 INSERT INTO Employee VALUES(1002, 18, 'Luke Skywalker', 3211233, 0, 1001);
@@ -119,8 +124,12 @@ INSERT INTO Showtime VALUES (1, '10:00PM');
 INSERT INTO Showtime VALUES (2, '06:00PM');
 INSERT INTO Showtime VALUES (2, '11:00AM');
 
-INSERT INTO Sells VALUES (1001, 106);
-INSERT INTO Sells VALUES (1002, 101);
+INSERT INTO Sells VALUES (1001, 101);
+INSERT INTO Sells VALUES (1002, 102);
+INSERT INTO Sells VALUES (1002, 103);
+INSERT INTO Sells VALUES (1003, 104);
+INSERT INTO Sells VALUES (1003, 105);
+INSERT INTO Sells VALUES (1003, 106);
 
 INSERT INTO ShownIn VALUES ('regular',2, 10); 
 
@@ -146,7 +155,8 @@ FROM   (SELECT eID, name, hours
 WHERE ROWNUM <= 2;
 
 --Q2: GROUP BY
---finds the total cost of all tickets sold for each movie, and orders it by the sum of the cost.
+--finds the total cost of all tickets sold for each movie that has made 
+--more than $50, and orders it by the sum of the cost.
 SELECT T.mID, SUM(T.cost)
 FROM Ticket T
 GROUP BY T.mID
@@ -166,7 +176,7 @@ IN (SELECT P.eID FROM ParkingSpace P);
 --Q5: Rank query
 --ranks the movies on how much they made on a particular date
 SELECT mID, amount, mdate, RANK() OVER (PARTITION BY mdate ORDER BY amount DESC) "Daily Rank" 
-FROM Revenue
+FROM Revenue;
 
 --Q6: Joining 4 Tables
 --Finds the employees who have sold a ticket to an R-rated Movie
@@ -184,6 +194,13 @@ SELECT DISTINCT E.eID, E.name, P.parkID
 FROM Employee E, ParkingSpace P
 WHERE E.eID != P.eID;
 
+--Q8: Correlated subquery
+--Finds all the employees that have sold two or more tickets
+SELECT E.eID, E.name
+FROM Employee E
+WHERE   (SELECT COUNT(*) 
+	FROM Sells S 
+	WHERE S.eID = E.eID) >= 2;
 
 --Testing KEY1
 INSERT INTO Ticket VALUES (104, 3, 20, 20, 'Sheryl');
@@ -191,11 +208,6 @@ INSERT INTO Ticket VALUES (104, 3, 20, 20, 'Sheryl');
 INSERT INTO Ticket VALUES (102, 2, 4, 45, 'Bob');
 --Testing Primary Key
 INSERT INTO Theater VALUES (NULL, 60000000);
---Testing ATT2, overfill the theater
-INSERT INTO Ticket VALUES (105, 2, 15, 200, 'John');
-INSERT INTO Ticket VALUES (109, 2, 15, 200, 'John');
-INSERT INTO Ticket VALUES (107, 2, 15, 200, 'John');
-INSERT INTO Ticket VALUES (108, 2, 15, 200, 'John');
 --Testing ATT3
 INSERT INTO Employee VALUES (1005, 20, 'Corey', NULL, 1, NULL);
 INSERT INTO Employee VALUES (1004, 30, 'Joanne', NULL, 0, NULL);
